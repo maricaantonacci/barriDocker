@@ -17,7 +17,7 @@ RUN wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-fortran-4.4.3.tar.gz
 RUN tar -zxvf netcdf-fortran-4.4.3.tar.gz 
 RUN cd netcdf-fortran-4.4.3 && ./configure --disable-netcdf-4 --prefix=/usr && make && make install
 
-RUN svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/6075/ delft3d_repository --username aguilarf.x --password ferdiguay
+RUN svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/6075/ delft3d_repository --username ferag.x --password indigo
 
 RUN sed -i "s/addpath PATH \/opt\/mpich2-1.4.1-gcc-4.6.2\/bin/addpath PATH \/usr\/bin/" delft3d_repository/src/build.sh
 RUN sed -i "s/export MPI_INCLUDE=\/opt\/mpich2-1.4.1-gcc-4.6.2\/include/export MPI_INCLUDE=\/usr\/include/" delft3d_repository/src/build.sh
