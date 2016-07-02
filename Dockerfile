@@ -1,13 +1,10 @@
-FROM ubuntu:latest
+FROM ubuntu:14.04
 
-MAINTAINER Fernando Aguilar <aguilarf@ifca.unican.es>
-
-RUN sed '3 a\91.189.88.152 archive.ubuntu.com' /etc/hosts 
+MAINTAINER Marica Antonacci <marica.antonacci@gmail.com>
 
 RUN apt-get update
-RUN apt-get -y upgrade
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install subversion libtool libltdl7 libltdl-dev libexpat1-dev gcc gfortran g++ mpich byacc flex openssl ruby libreadline6-dev libnetcdf-dev autoconf automake autotools-dev wget
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install subversion libtool libltdl7 libltdl-dev libexpat1-dev gcc gfortran g++ mpich byacc flex openssl ruby libreadline6-dev libnetcdf-dev autoconf automake autotools-dev make wget
 
 RUN wget ftp://ftp.unidata.ucar.edu/pub/netcdf/netcdf-4.4.0.tar.gz
 RUN tar -zxvf netcdf-4.4.0.tar.gz
@@ -36,19 +33,8 @@ RUN cat delft3d_repository/src/build.sh | grep ds-install
 ENV NETCDF_LIBS -I/usr/lib
 ENV NETCDF_CFLAGS -I/usr/include
 
-RUN ls /usr/lib
-
 RUN delft3d_repository/src/build.sh -gnu -64bit -debug
-CMD cat delft3d_repository/src/logs/*
-#RUN delft3d_repository/src/autogen.sh
-#RUN CFLAGS='-O2' CXXFLAGS='-O2' FFLAGS='-O2' FCFLAGS='-O2' delft3d_repository/src/configure --prefix=`pwd`
-#RUN make ds-install -C delft3d_repository/src/
 
-ENV MODEL_ID model2
-ENV BASE_MODEL_PATH delft3d_repository/examples/06_delwaq
-ENV INP_FILE com-tut_fti_waq.inp
+#clean
+RUN rm -rf delft3d_repository/src netcdf-4.4.0.tar.gz netcdf-fortran-4.4.3.tar.gz
 
-RUN cp -rf $BASE_MODEL_PATH $BASE_MODEL_PATH/../$MODEL_ID
-ADD com-tut_fti_waq.inp $BASE_MODEL_PATH/../$MODEL_ID/com-tut_fti_waq.inp
-
-RUN cd $BASE_MODEL_PATH/../$MODEL_ID && ./run_delwaq.sh && ls
