@@ -29,7 +29,7 @@ RUN svn checkout https://svn.oss.deltares.nl/repos/delft3d/tags/6075/ delft3d_re
     sed -i "s/addpath PATH \/opt\/gcc\/bin/addpath PATH \/usr\/bin/" delft3d_repository/src/build.sh && \
     sed -i "s/addpath LD_LIBRARY_PATH \/opt\/gcc\/lib \/opt\/gcc\/lib64/addpath LD_LIBRARY_PATH \usr\/lib \/usr\/lib64/" delft3d_repository/src/build.sh && \
     sed -i "s/make ds-install &> \$log/make ds-install/" delft3d_repository/src/build.sh && \
-    sed -i "s/-lfmpich -lmpich -lmpl/-lmpich -lmpl/" delft3d_repository/src/build.sh && 
+    sed -i "s/-lfmpich -lmpich -lmpl/-lmpich -lmpl/" delft3d_repository/src/build.sh && \ 
     cat delft3d_repository/src/build.sh | grep ds-install && \
     delft3d_repository/src/build.sh -gnu -64bit -debug && \
     rm -rf delft3d_repository/src
